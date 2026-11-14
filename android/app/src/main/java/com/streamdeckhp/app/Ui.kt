@@ -147,6 +147,10 @@ private fun PairView(vm: DeckVM) {
             Spacer(Modifier.height(16.dp))
             Text("Tidak bisa scan? Isi manual", color = Color(0xFF8FA2FF), fontSize = 16.sp, modifier = Modifier.clickable { vm.manual() }.padding(6.dp))
         }
+        Column(Modifier.align(Alignment.BottomCenter).padding(bottom = 6.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Versi ${vm.version}", color = MUTED, fontSize = 13.sp)
+            Text(vm.upBtn, color = Color(0xFF8FA2FF), fontSize = 14.sp, modifier = Modifier.clickable { vm.upButton() }.padding(horizontal = 12.dp, vertical = 6.dp))
+        }
     }
 }
 

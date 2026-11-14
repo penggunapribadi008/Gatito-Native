@@ -208,7 +208,7 @@ struct Bus {
     peak_mic: Arc<AtomicU32>,
 }
 
-const THR: f32 = 0.708; // -3 dB
+const THR: f32 = 0.95; // batas pengaman supaya tidak pecah; di bawah ini volume tombol berubah linear
 
 fn fill(b: &mut Bus, out: &mut [f32]) {
     let ch = b.ch;
@@ -230,17 +230,21 @@ fn fill(b: &mut Bus, out: &mut [f32]) {
                 continue;
             }
             let mut g = v.gain;
+            let mut finish = false;
             if v.fade_left > 0 {
-                g *= v.fade_left as f32 / v.fade_total as f32;
+                g *= v.fade_left as f32 / v.fade_total.max(1) as f32;
                 v.fade_left -= 1;
                 if v.fade_left == 0 {
-                    v.pos = v.data.len();
+                    finish = true; // frame terakhir tetap dibaca dulu, baru suara ditandai selesai
                 }
             }
             for c in 0..ch {
                 acc[c] += v.data[v.pos + c] * g;
             }
             v.pos += ch;
+            if finish {
+                v.pos = v.data.len();
+            }
         }
         for a in acc.iter_mut() {
             *a *= b.send;
@@ -293,7 +297,12 @@ where
         move |data: &mut [T], _| {
             tmp.resize(data.len(), 0.0);
             match bus.lock() {
-                Ok(mut b) => fill(&mut b, &mut tmp),
+                Ok(mut b) => {
+                    let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| fill(&mut b, &mut tmp)));
+                    if r.is_err() {
+                        tmp.iter_mut().for_each(|x| *x = 0.0);
+                    }
+                }
                 Err(_) => tmp.iter_mut().for_each(|x| *x = 0.0),
             }
             for (o, i) in data.iter_mut().zip(tmp.iter()) {

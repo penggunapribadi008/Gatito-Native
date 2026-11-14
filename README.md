@@ -1,4 +1,4 @@
-# Gatito: Stream Tool 3.0.0, versi Rust (PC) + Kotlin (Android)
+# Gatito: Stream Tool 3.0.2, versi Rust (PC) + Kotlin (Android)
 
 Ditulis ulang dari `Gatito Stream Tool v2.6.1` (Electron + Capacitor). Tujuannya 1:1: UI, fitur, dan logic sama,
 bedanya hanya bahasa (Rust untuk PC, Kotlin untuk Android).
@@ -15,7 +15,7 @@ Kemungkinan ada beberapa error kompilasi (nama API egui/eframe 0.29, versi crate
 Tampilan juga perlu dicek langsung dan disetel (jarak, ukuran font) karena egui dan Compose menggambar sedikit berbeda dari browser.
 
 ## Cara build
-- PC (Windows): `cd pc && cargo build --release`. Installer: `makensis /DVERSION=3.0.0 installer.nsi`.
+- PC (Windows): `cd pc && cargo build --release`. Installer: `makensis /DVERSION=3.0.2 installer.nsi`.
 - Android: `cd android && bash build-apk.sh` (Gradle 8.7, JDK 17, Android SDK).
 - GitHub: upload semua isi folder ini. Secrets `KEYSTORE_B64` dan `KEYSTORE_PASSWORD` sama seperti sebelumnya
   (alias `streamdeckhp`, `applicationId` `com.streamdeckhp.app`), jadi APK baru bisa menimpa yang lama.

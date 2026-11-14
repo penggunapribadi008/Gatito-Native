@@ -54,6 +54,7 @@ pub fn quit() {
     if QUITTING.swap(true, Ordering::SeqCst) {
         return;
     }
+    win::hide_all(); // jendela langsung hilang, pemulihan mic di bawah berjalan di belakang
     let c = match CTX.get() {
         Some(c) => c.clone(),
         None => std::process::exit(0),
@@ -142,6 +143,16 @@ pub mod win {
         }
     }
 
+    pub fn hide_all() {
+        for t in [MAIN_TITLE, VPAD_TITLE] {
+            if let Some(h) = find(t) {
+                unsafe {
+                    let _ = ShowWindow(h, SW_HIDE);
+                }
+            }
+        }
+    }
+
     pub fn hide_if_minimized() {
         if let Some(h) = find(MAIN_TITLE) {
             unsafe {
@@ -168,6 +179,7 @@ pub mod win {
 #[cfg(not(windows))]
 pub mod win {
     pub fn show_main() {}
+    pub fn hide_all() {}
     pub fn hide_if_minimized() {}
     pub fn make_vpad_noactivate() -> bool {
         true
