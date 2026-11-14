@@ -317,7 +317,7 @@ where
         move |data: &[T], _| {
             let mut q = ring.q.lock().unwrap();
             for fr in data.chunks(ch.max(1)) {
-                let m: f32 = fr.iter().map(|s| f32::from_sample(*s)).sum::<f32>() / fr.len() as f32;
+                let m: f32 = fr.iter().map(|s| f32::from_sample_(*s)).sum::<f32>() / fr.len() as f32;
                 q.push_back(m);
             }
             while q.len() > cap {
