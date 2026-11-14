@@ -416,7 +416,7 @@ private fun SettingsSheet(vm: DeckVM) {
         SheetTitle("Pengaturan", "Gatito: Stream Tool v${vm.version}")
         CardBox {
             Text("Ukuran tombol", color = TEXT, fontWeight = FontWeight.Bold)
-            Slider(value = vm.ks.toFloat(), onValueChange = { vm.setKs(it.toInt()) }, valueRange = 56f..130f, modifier = Modifier.padding(top = 4.dp))
+            Slider(value = vm.ks.toFloat(), onValueChange = { vm.changeKs(it.toInt()) }, valueRange = 56f..130f, modifier = Modifier.padding(top = 4.dp))
         }
         CardBox {
             Text("Layar HP", color = TEXT, fontWeight = FontWeight.Bold)

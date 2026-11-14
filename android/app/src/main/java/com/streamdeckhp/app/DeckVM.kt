@@ -116,7 +116,7 @@ class DeckVM(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun setKs(v: Int) {
+    fun changeKs(v: Int) {
         ks = v
         prefs.ks = v
     }
