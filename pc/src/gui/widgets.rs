@@ -378,15 +378,26 @@ pub fn seg(ui: &mut Ui, items: &[(&str, &str)], cur: &str, btn_w: f32, h: f32) -
 }
 
 // ---------------------------------------------------------------- dialog
+/// Baris tombol rata kanan dengan tinggi tetap (with_layout langsung di dialog bisa membuat dialog memanjang tanpa batas).
+pub fn rrow(ui: &mut Ui, add: impl FnOnce(&mut Ui)) {
+    ui.horizontal(|ui| {
+        ui.set_min_height(36.0);
+        ui.with_layout(Layout::right_to_left(Align::Center), add);
+    });
+}
+
 /// Dialog dengan latar gelap. Mengembalikan (diklik_di_luar, hasil).
+/// Latar gelap dan kotak dialog ada di lapisan (Order) yang berbeda, jadi kotak pasti selalu di atas latar.
 pub fn modal<R>(ctx: &Context, id: &str, width: f32, top: bool, add: impl FnOnce(&mut Ui) -> R) -> (bool, R) {
-    let order = if top { Order::Tooltip } else { Order::Foreground };
-    let outside = Area::new(Id::new((id, "scrim"))).order(order).fixed_pos(Pos2::ZERO).show(ctx, |ui| {
+    let (scrim_order, box_order) = if top { (Order::Foreground, Order::Tooltip) } else { (Order::Middle, Order::Foreground) };
+    let outside = Area::new(Id::new((id, "scrim"))).order(scrim_order).fixed_pos(Pos2::ZERO).show(ctx, |ui| {
         let r = ctx.screen_rect();
         ui.painter().rect_filled(r, 0.0, Color32::from_black_alpha(153));
         ui.allocate_rect(r, Sense::click()).clicked()
     });
-    let res = Area::new(Id::new((id, "box"))).order(order).anchor(Align2::CENTER_CENTER, Vec2::ZERO).show(ctx, |ui| {
+    let max_h = (ctx.screen_rect().height() - 60.0).max(200.0);
+    let res = Area::new(Id::new((id, "box"))).order(box_order).anchor(Align2::CENTER_CENTER, Vec2::ZERO).show(ctx, |ui| {
+        ui.set_max_height(max_h);
         Frame::none()
             .fill(SIDE)
             .rounding(16.0)

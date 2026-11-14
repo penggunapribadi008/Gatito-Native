@@ -336,7 +336,7 @@ impl App {
                 });
             });
             ui.add_space(12.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 ui.spacing_mut().item_spacing.x = 8.0;
                 if Btn::b("Tutup").fill(ACCENT).show(ui).clicked() {
                     close = true;
@@ -478,7 +478,7 @@ impl App {
                 }
             }
             ui.add_space(14.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 ui.spacing_mut().item_spacing.x = 8.0;
                 if Btn::b("Tutup").show(ui).clicked() {
                     close = true;
@@ -634,7 +634,7 @@ impl App {
                 });
             });
             ui.add_space(10.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 ui.spacing_mut().item_spacing.x = 8.0;
                 if restart && Btn::b("Mulai ulang").fill(ACCENT).show(ui).clicked() {
                     rst = true;
@@ -650,7 +650,7 @@ impl App {
             ui.add_space(8.0);
             ui.add(Label::new(RichText::new(&msg.1).font(reg(12.5)).color(c)).wrap());
             ui.add_space(14.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 if Btn::b("Tutup").fill(ACCENT).show(ui).clicked() {
                     close = true;
                 }
@@ -701,7 +701,7 @@ impl App {
             ui.add_space(10.0);
             ui.add(Label::new(RichText::new("Port 3000 (bawaan) juga dipakai ChatLivestream Labs dan banyak tool developer. Kalau 3000 sedang terpakai saat Gatito dibuka, Gatito otomatis pindah ke port kosong berikutnya dan memberi tahu kamu. Supaya HP tidak perlu scan ulang, simpan port tetap yang jarang dipakai, misalnya 3456 atau 4600.").font(reg(12.0)).color(MUTED)).wrap());
             ui.add_space(14.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 if Btn::b("Tutup").fill(ACCENT).show(ui).clicked() {
                     close = true;
                 }
@@ -869,7 +869,7 @@ impl App {
                 }
             }
             ui.add_space(14.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 ui.spacing_mut().item_spacing.x = 8.0;
                 if Btn::b("Simpan").fill(ACCENT).show(ui).clicked() {
                     ok = true;
@@ -903,7 +903,7 @@ impl App {
                 ui.add(Label::new(RichText::new(&c.text).font(reg(13.0)).color(MUTED)).wrap());
             }
             ui.add_space(16.0);
-            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+            rrow(ui, |ui| {
                 ui.spacing_mut().item_spacing.x = 8.0;
                 if Btn::b(&c.ok).fill(c.color).show(ui).clicked() {
                     ok = true;
