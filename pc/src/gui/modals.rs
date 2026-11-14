@@ -761,7 +761,7 @@ impl App {
                     ui.label(RichText::new(" terkirim.").font(reg(13.0)).color(MUTED));
                 });
             } else if m == "U" {
-                ui.label(RichText::new("Tombol virtual yang sedang dipakai di semua profil.").font(reg(13.0)).color(MUTED));
+                ui.label(RichText::new("Tombol virtual yang sedang dipakai. Tiap profil boleh memakai nomor yang sama.").font(reg(13.0)).color(MUTED));
             } else {
                 ui.add(Label::new(RichText::new(VHINT).font(reg(13.0)).color(MUTED)).wrap());
             }

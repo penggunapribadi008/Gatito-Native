@@ -265,7 +265,7 @@ impl App {
         };
         if id == "vkey" {
             if let Some(st) = &self.st {
-                if let Some(v) = all_vk().into_iter().find(|x| !st.used.iter().any(|u| &u.vk == x)) {
+                if let Some(v) = all_vk().into_iter().find(|x| !st.used.iter().any(|u| u.pi == st.cur && &u.vk == x)) {
                     d["vk"] = json!(v);
                 }
             }
@@ -897,7 +897,7 @@ impl App {
         let m = self.dd.as_ref().unwrap().m;
         let vk_items: Vec<String> = if mode == DdMode::Vk {
             let (cur, page, sel) = (self.st.as_ref().map(|s| s.cur).unwrap_or(0), self.page as i64, self.sel.map(|s| s as i64).unwrap_or(-1));
-            let used: Vec<String> = self.st.as_ref().map(|s| s.used.iter().filter(|u| !(u.pi == cur && u.pg == page && u.ki == sel)).map(|u| u.vk.clone()).collect()).unwrap_or_default();
+            let used: Vec<String> = self.st.as_ref().map(|s| s.used.iter().filter(|u| u.pi == cur && !(u.pg == page && u.ki == sel)).map(|u| u.vk.clone()).collect()).unwrap_or_default();
             all_vk().into_iter().filter(|v| !used.contains(v) && v.starts_with(m)).collect()
         } else {
             vec![]

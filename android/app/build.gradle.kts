@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versi dan nomor build diberikan CI lewat build-apk.sh
-val appVersion: String = (project.findProperty("appVersion") as String?) ?: "3.0.2"
+val appVersion: String = (project.findProperty("appVersion") as String?) ?: "3.0.3"
 val appCode: Int = ((project.findProperty("appCode") as String?) ?: "1").toInt()
 val updateRepo: String = (project.findProperty("updateRepo") as String?) ?: ""
 
