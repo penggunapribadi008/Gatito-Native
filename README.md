@@ -13,9 +13,6 @@ semua dari satu layar sentuh di tanganmu.
 
 ![Platform](https://img.shields.io/badge/PC-Windows-2b8fd6?style=for-the-badge&logo=windows&logoColor=white)
 ![Android](https://img.shields.io/badge/HP-Android_7%2B-1fa971?style=for-the-badge&logo=android&logoColor=white)
-![Rust](https://img.shields.io/badge/PC-Rust-dea584?style=for-the-badge&logo=rust&logoColor=black)
-![Kotlin](https://img.shields.io/badge/HP-Kotlin-7f52ff?style=for-the-badge&logo=kotlin&logoColor=white)
-![Gratis](https://img.shields.io/badge/Harga-Gratis-d6455d?style=for-the-badge)
 
 </div>
 
@@ -117,7 +114,7 @@ dengan efek **CRT** retro kalau mau.
  ┌──────────────┐     WiFi yang sama      ┌───────────────────────────────┐
  │   HP kamu    │  ◄──────────────────►   │            PC kamu            │
  │   Android    │   HTTP + WebSocket      │                               │
- │              │                         │  Server lokal (Rust)          │
+ │              │                         │  Server lokal                 │
  │  Tap tombol ─┼──── "tombol #7" ───────►│    ├─ Input   → hotkey, teks  │
  │              │                         │    ├─ Audio   → mic virtual   │
  │  Lihat LIVE ◄┼──── status OBS ◄────────│    └─ OBS     → obs-websocket │
@@ -151,43 +148,6 @@ termasuk status *jeda* dan *putus sambung*.
 
 ---
 
-## Dibuat pakai apa
-
-<table>
-<tr>
-<th width="50%">💻 PC · Rust</th>
-<th width="50%">📱 HP · Kotlin</th>
-</tr>
-<tr>
-<td valign="top">
-
-- **eframe / egui** untuk jendela editor native (tanpa WebView)
-- **axum + tokio** untuk server HTTP dan WebSocket
-- **cpal + symphonia** untuk mesin suara (decode, mixing, output)
-- **tokio-tungstenite** untuk menghubungi obs-websocket v5
-- **tray-icon** untuk ikon di system tray
-- **qrcode** untuk membuat kode QR sambungan
-- **reqwest (rustls)** untuk cek update dan unduh VB-Cable
-- **windows crate** untuk mengirim tombol keyboard
-- **NSIS** untuk installer `.exe`
-
-</td>
-<td valign="top">
-
-- **Jetpack Compose + Material 3** untuk seluruh tampilan (tanpa WebView)
-- **CameraX + ZXing** untuk memindai QR
-- **OkHttp** untuk WebSocket dan HTTP
-- **Coil (+ GIF)** untuk gambar dan GIF di tombol
-- **ViewModel + Coroutines** untuk state dan koneksi
-- Minimal **Android 7.0** (API 24)
-- Pembaruan aplikasi langsung dari dalam aplikasi
-
-</td>
-</tr>
-</table>
-
----
-
 ## Hal kecil yang bikin nyaman
 
 - 🔔 **Satu instance saja.** Membuka Gatito kedua cukup memunculkan jendela yang pertama.
@@ -196,50 +156,6 @@ termasuk status *jeda* dan *putus sambung*.
 - 📵 **Layar HP tetap menyala** selama aplikasi terbuka, dengan pilihan mati otomatis 1 sampai 30 menit.
 - 🔙 **Reconnect sendiri** kalau WiFi sempat putus, dan layar "PC tidak terhubung" muncul kalau memang mati.
 - 🌐 **Halaman web cadangan.** HP tanpa aplikasi tetap bisa membuka alamat PC lewat browser.
-
----
-
-## Struktur proyek
-
-```
-pc/        Rust: server, mesin suara, OBS, VB-Cable, update, tray, GUI egui
-android/   Kotlin + Jetpack Compose: aplikasi HP dan pemindai QR
-.github/   build.yml: membuat installer .exe dan .apk otomatis
-```
-
-| Mau lihat... | Buka |
-|---|---|
-| Editor dan semua dialog | `pc/src/gui/` |
-| Server HTTP dan WebSocket | `pc/src/server.rs` |
-| Aksi tombol (hotkey, teks, media) | `pc/src/input.rs` |
-| Mesin suara | `pc/src/audio.rs`, `pc/src/winaudio.rs` |
-| Sambungan OBS | `pc/src/obs.rs` |
-| Tampilan HP | `android/app/src/main/java/com/streamdeckhp/app/Ui.kt` |
-
----
-
-## Mulai build sendiri
-
-**PC (Windows)**
-```bash
-cd pc
-cargo build --release
-makensis /DVERSION=3.0.3 installer.nsi   # opsional: bikin installer
-```
-
-**Android** (butuh JDK 17 dan Android SDK)
-```bash
-cd android
-bash build-apk.sh
-```
-
-**Lewat GitHub:** upload semua isi folder ini, lalu workflow `build.yml` menghasilkan `.exe` dan `.apk`.
-Isi secrets `KEYSTORE_B64` dan `KEYSTORE_PASSWORD` kalau mau APK-nya menimpa versi lama
-(alias `streamdeckhp`, `applicationId` `com.streamdeckhp.app`).
-
-> ⚠️ **Status:** kode ini ditulis ulang dari versi Electron + Capacitor (v2.6.1) dan **belum pernah dikompilasi**.
-> Kemungkinan ada error build kecil (misalnya nama API egui/eframe 0.29 atau versi crate), dan tampilan perlu disetel
-> sedikit karena egui dan Compose menggambar berbeda dari browser. Kirim log error-nya dan kita rapikan bersama.
 
 ---
 
