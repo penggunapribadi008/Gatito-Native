@@ -1,4 +1,4 @@
-; Installer Gatito Stream Tool (NSIS). Dipanggil dari CI: makensis /DVERSION=3.0.3 installer.nsi
+; Installer Gatito Stream Tool (NSIS). Dipanggil dari CI: makensis /DVERSION=3.0.4 installer.nsi
 !ifndef VERSION
   !define VERSION "0.0.0"
 !endif

@@ -76,7 +76,7 @@ pub fn setup(ctx: &Context) {
         w.bg_fill = INPUT_BG;
     }
     v.widgets.hovered.weak_bg_fill = Color32::from_rgb(0x1a, 0x1b, 0x1f);
-    v.selection.stroke = Stroke::new(1.0, Color32::from_rgb(0x5b, 0x60, 0x70));
+    v.selection.stroke = Stroke::new(1.0, Color32::WHITE);
     v.selection.bg_fill = Color32::from_rgba_unmultiplied(0x4f, 0x6d, 0xf5, 120);
     v.window_rounding = Rounding::same(8.0);
     v.window_stroke = Stroke::new(1.0, INPUT_BORDER);
@@ -312,7 +312,9 @@ pub fn select(ui: &mut Ui, id: &str, w: f32, current: &str, opts: &[(String, Str
         ComboBox::from_id_salt(id).width(w).selected_text(RichText::new(text).font(reg(14.0))).show_ui(ui, |ui| {
             ui.set_min_width(w - 16.0);
             for (v, t) in opts {
-                if ui.selectable_label(v == current, t).clicked() {
+                let on = v == current;
+                let txt = RichText::new(t).color(if on { Color32::WHITE } else { TEXT });
+                if ui.selectable_label(on, txt).clicked() {
                     chosen = Some(v.clone());
                 }
             }

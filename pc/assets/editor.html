@@ -466,7 +466,7 @@ function aDraw() {
     `<label><span class="lt">Mic virtual <span class="rec">(${esc(i.cableFound ? tidy(i.cable) : 'belum terpasang')})</span></span><select id="svirt">${opt('', 'Otomatis (rekomendasi)', vc)}${outs.map((d) => opt(d.id, d.label, vc)).join('')}${opt('none', 'Jangan kirim ke teman', vc)}</select></label>` +
     `<label>Speaker<select id="smon">${opt('default', 'Default Windows', mc)}${outs.filter((d) => !d.v).map((d) => opt(d.id, d.label, mc)).join('')}${opt('off', 'Mati (aku tidak mendengar)', mc)}</select></label>` +
     `<label><span class="lt">Mic <span class="rec">(${esc(tidy(realMic(i.mic)) || '-')})</span></span><select id="smic">${opt('', 'Otomatis (rekomendasi)', ic)}${ins.map((d) => opt(d.id, d.label, ic)).join('')}${opt('off', 'Mati (hanya soundboard)', ic)}</select></label>` +
-    sld('cv', 'Volume mic', 200, c.micVol) + sld('vv', 'Volume ke teman', 200, c.vVol) + sld('mv', 'Volume di speakerku', 100, c.mVol) +
+    sld('cv', 'Volume mic', 200, c.micVol) + sld('vv', 'Volume Channel', 200, c.vVol) + sld('mv', 'Volume Monitor', 100, c.mVol) +
     `<label>Level mic<div class="mt"><i id="lmic"></i></div></label><label>Level mic virtual<div class="mt"><i id="lout"></i></div></label></div>`;
   const pick = (id, list, key) => { $(id).onchange = (ev) => { const v = ev.target.value; aSave({ [key]: { id: v, label: ['', 'default', 'off', 'none'].includes(v) ? '' : lab(list, v) } }); }; };
   pick('svirt', outs, 'virt'); pick('smon', outs, 'mon'); pick('smic', i.inp, 'mic');

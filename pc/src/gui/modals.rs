@@ -319,8 +319,8 @@ impl App {
                             });
                         });
                     };
-                    sld(ui, "vv", "Volume ke teman", "vVol", 200.0);
-                    sld(ui, "mv", "Volume di speakerku", "mVol", 100.0);
+                    sld(ui, "vv", "Volume Channel", "vVol", 200.0);
+                    sld(ui, "mv", "Volume Monitor", "mVol", 100.0);
                 });
                 ui.add_space(12.0);
                 let meter = |ui: &mut Ui, v: f32| {
@@ -466,7 +466,7 @@ impl App {
                 if let Some(outs) = status["outs"].as_array() {
                     if !outs.is_empty() {
                         ui.label(RichText::new("Output yang terbaca di OBS:").font(reg(12.0)).color(MUTED));
-                        ScrollArea::vertical().max_height(150.0).show(ui, |ui| {
+                        ScrollArea::vertical().max_height(150.0).auto_shrink([false, true]).show(ui, |ui| {
                             for o in outs {
                                 let l = match o["type"].as_str().unwrap_or("") { "live" => "Live", "rec" => "Rekam", _ => "diabaikan" };
                                 let act = b_of(o, "active");
@@ -686,7 +686,8 @@ impl App {
             ui.add_space(6.0);
             ui.add(Label::new(RichText::new("Port ini biasanya sudah dipakai program lain. Kalau dimasukkan, Gatito menolaknya.").font(reg(13.0)).color(MUTED)).wrap());
             ui.add_space(10.0);
-            ScrollArea::vertical().max_height(260.0).show(ui, |ui| {
+            ScrollArea::vertical().max_height(260.0).auto_shrink([false, true]).show(ui, |ui| {
+                let rw = ui.available_width() - 14.0;
                 for (p, n) in &list {
                     ui.horizontal(|ui| {
                         ui.spacing_mut().item_spacing.x = 12.0;
@@ -694,7 +695,8 @@ impl App {
                         ui.label(RichText::new(n).font(reg(13.0)).color(MUTED));
                     });
                     let y = ui.cursor().top();
-                    ui.painter().hline(ui.max_rect().x_range(), y, Stroke::new(1.0, INPUT_BORDER));
+                    let x0 = ui.max_rect().left();
+                    ui.painter().hline(x0..=(x0 + rw), y, Stroke::new(1.0, INPUT_BORDER));
                     ui.add_space(6.0);
                 }
             });
@@ -767,7 +769,7 @@ impl App {
             }
             ui.add_space(10.0);
             if m == "U" {
-                ScrollArea::vertical().max_height(250.0).show(ui, |ui| {
+                ScrollArea::vertical().max_height(250.0).auto_shrink([false, true]).show(ui, |ui| {
                     if used.is_empty() {
                         ui.label(RichText::new("Belum ada tombol virtual yang dipakai.").color(MUTED));
                     }
@@ -800,7 +802,7 @@ impl App {
                 });
             } else {
                 let list: Vec<String> = if m == "F" { (13..25).map(|i| format!("F{i}")).collect() } else { (1..37).map(|i| format!("K{i}")).collect() };
-                ScrollArea::vertical().max_height(210.0).show(ui, |ui| {
+                ScrollArea::vertical().max_height(210.0).auto_shrink([false, true]).show(ui, |ui| {
                     let w = (ui.available_width() - 24.0) / 4.0;
                     for row in list.chunks(4) {
                         ui.horizontal(|ui| {
